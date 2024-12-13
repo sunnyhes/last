@@ -2,9 +2,10 @@ import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-# 구글 시트 인증 설정
+# 구글 시트 인증 설정 (Streamlit Secrets 사용)
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name('pages/credentials.json', scope)
+credentials_dict = st.secrets["gcp_service_account"]
+creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, scope)
 client = gspread.authorize(creds)
 sheet = client.open("조석 이용 사례 제출").sheet1
 
